@@ -137,15 +137,15 @@ output/county_facts_dictionary.csv: input/county_facts_saved/county_facts_dictio
 
 working/no_header/primary_results.csv: output/primary_results.csv
 	mkdir -p working/no_header
-	tail +2 $^ > $@
+	tail -n  +2 $^ > $@
 
 working/no_header/county_facts.csv: output/county_facts.csv
 	mkdir -p working/no_header
-	tail +2 $^ > $@
+	tail -n +2 $^ > $@
 
 working/no_header/county_facts_dictionary.csv: output/county_facts_dictionary.csv
 	mkdir -p working/no_header
-	tail +2 $^ > $@
+	tail -n +2 $^ > $@
 
 output/database.sqlite: working/no_header/primary_results.csv working/no_header/county_facts.csv working/no_header/county_facts_dictionary.csv
 	-rm output/database.sqlite
@@ -163,12 +163,12 @@ output/hashes.txt: output/database.sqlite output/county_shapefiles/cb_2014_us_co
 	echo "Current git commit:" >> output/hashes.txt
 	git rev-parse HEAD >> output/hashes.txt
 	echo "\nCurrent input/ouput md5 hashes:" >> output/hashes.txt
-	md5 output/*.csv >> output/hashes.txt
-	md5 output/*.sqlite >> output/hashes.txt
-	md5 output/county_shapefiles/* >> output/hashes.txt
-	md5 input/state_results/* >> output/hashes.txt
-	md5 input/county_shapefiles/* >> output/hashes.txt
-	md5 input/county_facts_saved/* >> output/hashes.txt
+	md5sum output/*.csv >> output/hashes.txt
+	md5sum output/*.sqlite >> output/hashes.txt
+	md5sum output/county_shapefiles/* >> output/hashes.txt
+	md5sum input/state_results/* >> output/hashes.txt
+	md5sum input/county_shapefiles/* >> output/hashes.txt
+	md5sum input/county_facts_saved/* >> output/hashes.txt
 hashes: output/hashes.txt
 
 release: output/hashes.txt
